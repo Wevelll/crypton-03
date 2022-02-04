@@ -1,18 +1,17 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract Cars is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
+contract Cars is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     using Strings for uint256;
     Counters.Counter private _tokenIDs;
-
+    uint public totalSupply = 0;
     constructor() ERC721("Cars", "CARZ") {}
 
     function _baseURI() internal pure override returns (string memory) {
@@ -29,8 +28,9 @@ contract Cars is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     function mintACar() external onlyOwner returns (uint256) {
         _tokenIDs.increment();
         uint256 newItemID = _tokenIDs.current();
-        require(totalSupply() < 5, "Limit reached!");
+        require(totalSupply < 5, "Limit reached!");
 
+        totalSupply++;
         string memory newURI = string(abi.encodePacked(newItemID.toString(), ".json"));
         safeMint(msg.sender, newItemID);
         _setTokenURI(newItemID, newURI);
@@ -46,7 +46,7 @@ contract Cars is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
-        override(ERC721, ERC721Enumerable)
+        override(ERC721)
     {
         super._beforeTokenTransfer(from, to, tokenId);
     }
@@ -58,7 +58,7 @@ contract Cars is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721, ERC721Enumerable)
+        override(ERC721)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
