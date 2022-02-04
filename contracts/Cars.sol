@@ -26,7 +26,7 @@ contract Cars is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json")) : "";
     }
 
-    function mintACar() external returns (uint256) {
+    function mintACar() external onlyOwner returns (uint256) {
         _tokenIDs.increment();
         uint256 newItemID = _tokenIDs.current();
         require(totalSupply() < 5, "Limit reached!");
@@ -64,7 +64,7 @@ contract Cars is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         return super.supportsInterface(interfaceId);
     }
 
-    function safeMint(address to, uint256 tokenId) public onlyOwner {
+    function safeMint(address to, uint256 tokenId) internal {
         _safeMint(to, tokenId);
     }
 

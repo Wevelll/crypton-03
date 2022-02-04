@@ -1,38 +1,16 @@
 import * as dotenv from "dotenv";
 
-import { HardhatUserConfig, task } from "hardhat/config";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
-//import { carsAddr } from "../hardhat.config";
+import "./tasks/index";
 
 dotenv.config();
-export const ipfsURI = process.env.IPFS_URI !== undefined ? process.env.IPFS_URI : "";
 export const carsAddr = process.env.CARS_ADDR !== undefined ? process.env.CARS_ADDR : "";
-
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-
-task("grant", "You know anyways", async (taskArgs, hre) => {
-  const [me] = await hre.ethers.getSigners();
-
-  const contract = await hre.ethers.getContractAt("Cars", carsAddr); 
-  const result = await contract.mintACar();
-  console.log(result.toString());
-});
-
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
-
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
+export const gasAddr = process.env.GAS_ADDR !== undefined ? process.env.GAS_ADDR : "";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.0",
@@ -42,6 +20,10 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : []
     },
+  },
+  etherscan: {
+    apiKey: 
+      process.env.ETHERSCAN_KEY !== undefined ? process.env.ETHERSCAN_KEY : ""
   }
 };
 

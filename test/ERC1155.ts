@@ -3,7 +3,6 @@ import { expect } from "chai";
 import { BigNumber } from "ethers";
 import { ethers } from "hardhat";
 import { Gasoline, Gasoline__factory } from "../typechain";
-import { ipfsURI } from "../hardhat.config";
 
 describe("Gasoline contract", function () {
   let Gas: Gasoline;
