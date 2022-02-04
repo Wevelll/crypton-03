@@ -6,7 +6,7 @@ async function main() {
 
   await gas.deployed();
 
-  console.log("Staking deployed to:", gas.address);
+  console.log("Gasoline deployed to:", gas.address);
 }
 
 main().catch((error) => {

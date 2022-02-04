@@ -6,7 +6,7 @@ async function main() {
 
   await cars.deployed();
 
-  console.log("Staking deployed to:", cars.address);
+  console.log("Cars deployed to:", cars.address);
 }
 
 main().catch((error) => {
